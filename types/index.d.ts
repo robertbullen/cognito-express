@@ -1,9 +1,9 @@
-// TypeScript Version: 3.1
+// TypeScript Version: 2.3
 //
 // This file, and the overall project configuration, follow the steps and conventions defined at
 // <https://github.com/Microsoft/dtslint#add-types-for-a-library-not-on-definitelytyped>.
 
-import { VerifyCallback } from 'jsonwebtoken';
+import { VerifyCallback, VerifyErrors } from 'jsonwebtoken';
 
 type AddUndefined<T> = { [P in keyof T]: T[P] | undefined };
 
@@ -17,16 +17,17 @@ declare namespace CognitoExpress {
 
     type InitCallback = (success: boolean) => void;
 
-    // `VerifyCallback` is declaring both its `err` and `decoded` parameters as nonnullable, but
-    // because it's a typical Node callback, only one or the other will be defined. So this type
-    // decomposes `VerifyCallback`, declares its arguments as possibly undefined, and then
-    // recomposes.
-    type ValidateCallback = (
-        ...args: AddUndefined<Parameters<VerifyCallback>>
-    ) => ReturnType<VerifyCallback>;
+    // This type is base on jsonwebtokens' VerifyErrors, but cognito-express also adds to that the
+    // possibility of a `string` error.
+    type ValidateError = VerifyErrors | string;
 
-    // The type of `VerifyCallback`'s `decoded` parameter.
-    type ValidateResult = Parameters<VerifyCallback>[1];
+    // This type is the same as jsonwebtoken's VerifyCallback`'s `decoded` parameter.
+    type ValidateResult = string | object;
+
+    // This signature is based on jsonwebtoken's `VerifyCallback`, but declares its parameters as
+    // possibly undefined because it adheres to the Node callback convention of only one or the
+    // other will be defined.
+    type ValidateCallback = (error?: ValidateError, result?: ValidateResult) => void;
 }
 
 declare class CognitoExpress {
