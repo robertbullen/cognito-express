@@ -23,7 +23,8 @@
     "files": [
         "LICENSE",
         "README.md",
-        "lib/"
+        "lib/",
+        "types/"
     ],
     "dependencies": {
         "jsonwebtoken": "^8.3.0",
