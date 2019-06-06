@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "lib": ["es2015"],
+        "noEmit": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "paths": { "cognito-express": ["."] },
+        "strict": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true
+    }
+}
